@@ -67,4 +67,4 @@ Feel free to contact me to discuss any issues, questions, or comments.
 
 * Email: [idrees.suhail@gmail.com](mailto:idrees.suhail@gmail.com)
 * LinkedIn: [Suhail Idrees](https://www.linkedin.com/in/suhail-idrees-926657a8/)
-* Website: [suhailidrees.com](https://suhailidrees.com)
+* Website: [suhailidrees.com](https://suhailidrees.com/?gh)
