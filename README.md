@@ -49,7 +49,7 @@ Python 3:
 | postcode | String | Postcode where you are searching | Example: "CB2 1TN", "NW1 2BH" | "SW1A 0AA" |
 | radius | Integer | Radius of your search from the postcode | Can be any positive integer. Use 1500 for nation-wide search | 1500 (i.e. nation-wide) |
 | min_year | Integer | Minimum year of the car's manufacture | Can be any positive integer | 1995 |
-| min_year | Integer | Maximum year of the car's manufacture | Can be any positive integer | 1995 |
+| max_year | Integer | Maximum year of the car's manufacture | Can be any positive integer | 1995 |
 | include_writeoff | String | Whether or not to include insurance write-off categories (i.e. Cat S/C/D/N) | "include", "exclude", "writeoff-only" | "include" |
 | max_attempts_per_page | Integer | Maximum times to attempt scraping a page. A request may fail due to connectivity issues, server response issues, etc. and so in the event of a failure, the request will be retried a number of times specified by this argument | Can be any positive integer | 5 |
 | verbose | Boolean | Whether or not to print progress on the console. Good for debugging | True, False | False |
