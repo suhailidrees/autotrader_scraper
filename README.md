@@ -59,7 +59,7 @@ Python 3:
 
 ## Contributing
 
-Contributions are welcome!  For bug reports or requests please [submit an issue](https://github.com/suhail93/autotrader_scraper/issues).
+Contributions are welcome!  For bug reports or requests please [submit an issue](https://github.com/suhailidrees/autotrader_scraper/issues).
 
 ## Contact info
 
