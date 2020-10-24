@@ -3,13 +3,14 @@ Scrape AutoTrader.co.uk by specifying search criteria, with results returned as 
 
 
 ## Installation
-Python 2:
-
-    $ pip install autotrader-scraper
-    
+   
 Python 3:
 
     $ pip3 install autotrader-scraper
+
+To update from an older version, the best way is to run `pip3 uninstall autotrader-scraper` before running the above command.
+
+(Note: Python 2 is no longer supported as this package now uses **cloudscraper** to bypass CloudFlare protection, which in turn doesn't support Python 2)
 
 ## Usage
 
@@ -60,6 +61,12 @@ Python 3:
 ## Contributing
 
 Contributions are welcome!  For bug reports or requests please [submit an issue](https://github.com/suhailidrees/autotrader_scraper/issues).
+
+## Donations
+
+If you feel like showing your love and/or appreciation for this project, you can do so below:
+
+<a href="https://buymeacoff.ee/suhailidrees" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 ## Contact info
 
