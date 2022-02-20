@@ -164,17 +164,18 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 
 ### Output functions ###
 
-def save_csv(results=[], filename="scraper_output.csv"):
+def save_csv(results=None, filename="scraper_output.csv"):
     csv_columns = ["name", "link", "price", "mileage", "BHP", "transmission", "fuel", "owners", "body", "ULEZ",
                    "engine", "year"]
+    if results:
+        with open(filename, "w", newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=csv_columns)
+            writer.writeheader()
+            for data in results:
+                writer.writerow(data)
 
-    with open(filename, "w", newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=csv_columns)
-        writer.writeheader()
-        for data in results:
-            writer.writerow(data)
 
-
-def save_json(results=[], filename="scraper_output.json"):
-    with open(filename, 'w') as f:
-        json.dump(results, f, sort_keys=True, indent=4, separators=(',', ': '))
+def save_json(results=None, filename="scraper_output.json"):
+    if results:
+        with open(filename, 'w') as f:
+            json.dump(results, f, sort_keys=True, indent=4, separators=(',', ': '))
