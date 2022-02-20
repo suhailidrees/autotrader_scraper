@@ -92,14 +92,13 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
             params["year-to"] = year
             params["page"] = page
 
-            r = scraper.get(url, params=params)
             if verbose:
                 print("Year:     ", year)
                 print("Page:     ", page)
                 print("Response: ", r)
 
             try:
-
+                r = scraper.get(url, params=params)
                 if r.status_code != 200:  # if not successful (e.g. due to bot protection), log as an attempt
                     attempt = attempt + 1
                     if attempt <= max_attempts_per_page:
