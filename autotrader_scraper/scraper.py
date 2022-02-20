@@ -4,6 +4,16 @@ from bs4 import BeautifulSoup
 import traceback
 import cloudscraper
 
+keywords = {"mileage": ["miles"],
+            "BHP": ["BHP"],
+            "transmission": ["Automatic", "Manual"],
+            "fuel": ["Petrol", "Diesel", "Electric", "Hybrid – Diesel/Electric Plug-in", "Hybrid – Petrol/Electric",
+                     "Hybrid – Petrol/Electric Plug-in"],
+            "owners": ["owners"],
+            "body": ["Coupe", "Convertible", "Estate", "Hatchback", "MPV", "Pickup", "SUV", "Saloon"],
+            "ULEZ": ["ULEZ"],
+            "year": [" reg)"],
+            "engine": ["engine"]}
 
 def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995,
              include_writeoff="include", max_attempts_per_page=5, verbose=False):
@@ -16,17 +26,6 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
     n_this_year_results = 0
 
     url = "https://www.autotrader.co.uk/results-car-search"
-
-    keywords = {"mileage": ["miles"],
-                "BHP": ["BHP"],
-                "transmission": ["Automatic", "Manual"],
-                "fuel": ["Petrol", "Diesel", "Electric", "Hybrid – Diesel/Electric Plug-in", "Hybrid – Petrol/Electric",
-                         "Hybrid – Petrol/Electric Plug-in"],
-                "owners": ["owners"],
-                "body": ["Coupe", "Convertible", "Estate", "Hatchback", "MPV", "Pickup", "SUV", "Saloon"],
-                "ULEZ": ["ULEZ"],
-                "year": [" reg)"],
-                "engine": ["engine"]}
 
     # Set up parameters for query to autotrader.co.uk
 
@@ -51,7 +50,6 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
     attempt = 1
 
     try:
-
         while year <= max_year:
 
             params["year-from"] = year
