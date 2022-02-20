@@ -15,6 +15,42 @@ keywords = {"mileage": ["miles"],
             "year": [" reg)"],
             "engine": ["engine"]}
 
+
+def get_car_details(article):
+    car = {"name": article.find("h3", {"class": "product-card-details__title"}).text.strip(),
+           "link": "https://www.autotrader.co.uk" + \
+                   article.find("a", {"class": "tracking-standard-link"})["href"][
+                   : article.find("a", {"class": "tracking-standard-link"})["href"].find("?")],
+           "price": article.find("div", {"class": "product-card-pricing__price"}).text.strip()}
+
+    key_specs_bs_list = article.find("ul", {"class": "listing-key-specs"}).find_all("li")
+
+    for key_spec_bs_li in key_specs_bs_list:
+
+        key_spec_bs = key_spec_bs_li.text
+
+        if any(keyword in key_spec_bs for keyword in keywords["mileage"]):
+            car["mileage"] = int(key_spec_bs[:key_spec_bs.find(" miles")].replace(",", ""))
+        elif any(keyword in key_spec_bs for keyword in keywords["BHP"]):
+            car["BHP"] = int(key_spec_bs[:key_spec_bs.find("BHP")])
+        elif any(keyword in key_spec_bs for keyword in keywords["transmission"]):
+            car["transmission"] = key_spec_bs
+        elif any(keyword in key_spec_bs for keyword in keywords["fuel"]):
+            car["fuel"] = key_spec_bs
+        elif any(keyword in key_spec_bs for keyword in keywords["owners"]):
+            car["owners"] = int(key_spec_bs[:key_spec_bs.find(" owners")])
+        elif any(keyword in key_spec_bs for keyword in keywords["body"]):
+            car["body"] = key_spec_bs
+        elif any(keyword in key_spec_bs for keyword in keywords["ULEZ"]):
+            car["ULEZ"] = key_spec_bs
+        elif any(keyword in key_spec_bs for keyword in keywords["year"]):
+            car["year"] = key_spec_bs
+        elif key_spec_bs[1] == "." and key_spec_bs[3] == "L":
+            car["engine"] = key_spec_bs
+
+    return car
+
+
 def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995,
              include_writeoff="include", max_attempts_per_page=5, verbose=False):
     # To bypass Cloudflare protection
@@ -98,37 +134,7 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
                         n_this_year_results = 0
                     else:
                         for article in articles:
-                            car = {"name": article.find("h3", {"class": "product-card-details__title"}).text.strip(),
-                                   "link": "https://www.autotrader.co.uk" + \
-                                           article.find("a", {"class": "tracking-standard-link"})["href"][
-                                           : article.find("a", {"class": "tracking-standard-link"})["href"].find("?")],
-                                   "price": article.find("div", {"class": "product-card-pricing__price"}).text.strip()}
-
-                            key_specs_bs_list = article.find("ul", {"class": "listing-key-specs"}).find_all("li")
-
-                            for key_spec_bs_li in key_specs_bs_list:
-
-                                key_spec_bs = key_spec_bs_li.text
-
-                                if any(keyword in key_spec_bs for keyword in keywords["mileage"]):
-                                    car["mileage"] = int(key_spec_bs[:key_spec_bs.find(" miles")].replace(",", ""))
-                                elif any(keyword in key_spec_bs for keyword in keywords["BHP"]):
-                                    car["BHP"] = int(key_spec_bs[:key_spec_bs.find("BHP")])
-                                elif any(keyword in key_spec_bs for keyword in keywords["transmission"]):
-                                    car["transmission"] = key_spec_bs
-                                elif any(keyword in key_spec_bs for keyword in keywords["fuel"]):
-                                    car["fuel"] = key_spec_bs
-                                elif any(keyword in key_spec_bs for keyword in keywords["owners"]):
-                                    car["owners"] = int(key_spec_bs[:key_spec_bs.find(" owners")])
-                                elif any(keyword in key_spec_bs for keyword in keywords["body"]):
-                                    car["body"] = key_spec_bs
-                                elif any(keyword in key_spec_bs for keyword in keywords["ULEZ"]):
-                                    car["ULEZ"] = key_spec_bs
-                                elif any(keyword in key_spec_bs for keyword in keywords["year"]):
-                                    car["year"] = key_spec_bs
-                                elif key_spec_bs[1] == "." and key_spec_bs[3] == "L":
-                                    car["engine"] = key_spec_bs
-
+                            car = get_car_details(article)
                             results.append(car)
                             n_this_year_results = n_this_year_results + 1
 
