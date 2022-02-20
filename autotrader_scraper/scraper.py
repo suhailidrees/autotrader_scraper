@@ -144,7 +144,7 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
             except KeyboardInterrupt:
                 break
 
-            except:
+            else:
                 traceback.print_exc()
                 attempt = attempt + 1
                 if attempt <= max_attempts_per_page:
