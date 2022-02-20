@@ -39,11 +39,11 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
               "search-results-year": "select-year",
               }
 
-    if (include_writeoff == "include"):
+    if include_writeoff == "include":
         params["writeoff-categories"] = "on"
-    elif (include_writeoff == "exclude"):
+    elif include_writeoff == "exclude":
         params["exclude-writeoff-categories"] = "on"
-    elif (include_writeoff == "writeoff-only"):
+    elif include_writeoff == "writeoff-only":
         params["only-writeoff-categories"] = "on"
 
     year = min_year
@@ -100,12 +100,11 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
                         n_this_year_results = 0
                     else:
                         for article in articles:
-                            car = {}
-                            car["name"] = article.find("h3", {"class": "product-card-details__title"}).text.strip()
-                            car["link"] = "https://www.autotrader.co.uk" + \
-                                          article.find("a", {"class": "tracking-standard-link"})["href"][
-                                          : article.find("a", {"class": "tracking-standard-link"})["href"].find("?")]
-                            car["price"] = article.find("div", {"class": "product-card-pricing__price"}).text.strip()
+                            car = {"name": article.find("h3", {"class": "product-card-details__title"}).text.strip(),
+                                   "link": "https://www.autotrader.co.uk" + \
+                                           article.find("a", {"class": "tracking-standard-link"})["href"][
+                                           : article.find("a", {"class": "tracking-standard-link"})["href"].find("?")],
+                                   "price": article.find("div", {"class": "product-card-pricing__price"}).text.strip()}
 
                             key_specs_bs_list = article.find("ul", {"class": "listing-key-specs"}).find_all("li")
 
