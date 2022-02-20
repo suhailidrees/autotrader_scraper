@@ -17,29 +17,27 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 
     url = "https://www.autotrader.co.uk/results-car-search"
 
-    keywords = {}
-    keywords["mileage"] = ["miles"]
-    keywords["BHP"] = ["BHP"]
-    keywords["transmission"] = ["Automatic", "Manual"]
-    keywords["fuel"] = ["Petrol", "Diesel", "Electric", "Hybrid – Diesel/Electric Plug-in", "Hybrid – Petrol/Electric",
-                        "Hybrid – Petrol/Electric Plug-in"]
-    keywords["owners"] = ["owners"]
-    keywords["body"] = ["Coupe", "Convertible", "Estate", "Hatchback", "MPV", "Pickup", "SUV", "Saloon"]
-    keywords["ULEZ"] = ["ULEZ"]
-    keywords["year"] = [" reg)"]
-    keywords["engine"] = ["engine"]
+    keywords = {"mileage": ["miles"],
+                "BHP": ["BHP"],
+                "transmission": ["Automatic", "Manual"],
+                "fuel": ["Petrol", "Diesel", "Electric", "Hybrid – Diesel/Electric Plug-in", "Hybrid – Petrol/Electric",
+                         "Hybrid – Petrol/Electric Plug-in"],
+                "owners": ["owners"],
+                "body": ["Coupe", "Convertible", "Estate", "Hatchback", "MPV", "Pickup", "SUV", "Saloon"],
+                "ULEZ": ["ULEZ"],
+                "year": [" reg)"],
+                "engine": ["engine"]}
 
     # Set up parameters for query to autotrader.co.uk
 
-    params = {
-            "sort": "relevance",
-            "postcode": postcode,
-            "radius": radius,
-            "make": make,
-            "model": model,
-            "search-results-price-type": "total-price",
-            "search-results-year": "select-year",
-    }
+    params = {"sort": "relevance",
+              "postcode": postcode,
+              "radius": radius,
+              "make": make,
+              "model": model,
+              "search-results-price-type": "total-price",
+              "search-results-year": "select-year",
+              }
 
     if (include_writeoff == "include"):
         params["writeoff-categories"] = "on"
