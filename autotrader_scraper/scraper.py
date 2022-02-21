@@ -1,5 +1,6 @@
 import json
 import csv
+import logging
 from bs4 import BeautifulSoup
 import traceback
 import cloudscraper
@@ -53,6 +54,13 @@ def get_car_details(article):
 
 def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995,
              include_writeoff="include", max_attempts_per_page=5, verbose=False):
+
+    if verbose:
+        log_level = logging.DEBUG
+    else:
+        log_level = logging.INFO
+    logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level)
+
     # To bypass Cloudflare protection
     scraper = cloudscraper.create_scraper()
 
@@ -92,23 +100,19 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
             params["year-to"] = year
             params["page"] = page
 
-            if verbose:
-                print("Year:     ", year)
-                print("Page:     ", page)
-                print("Response: ", r)
-
             try:
                 r = scraper.get(url, params=params)
+                logging.debug(f"Year:     {year}\nPage:     {page}\nResponse: {r}")
+
                 if r.status_code != 200:  # if not successful (e.g. due to bot protection), log as an attempt
                     attempt = attempt + 1
                     if attempt <= max_attempts_per_page:
-                        if verbose:
-                            print("Exception. Starting attempt #", attempt, "and keeping at page #", page)
+                        logging.debug(f"Exception. Starting attempt #{attempt} and keeping at page #{page}")
+
                     else:
                         page = page + 1
                         attempt = 1
-                        if verbose:
-                            print("Exception. All attempts exhausted for this page. Skipping to next page #", page)
+                        logging.debug(f"Exception. All attempts exhausted for this page. Skipping to next page #{page}")
 
                 else:
 
@@ -119,18 +123,19 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 
                     # if no results or reached end of results...
                     if len(articles) == 0 or r.url[r.url.find("page=") + 5:] != str(page):
-                        if verbose:
-                            print("Found total", n_this_year_results, "results for year", year, "across", page - 1,
-                                  "pages")
-                            if year + 1 <= max_year:
-                                print("Moving on to year", year + 1)
-                                print("---------------------------------")
+                        logging.debug(
+                                f"Found total {n_this_year_results} results for year {year} across {page - 1} pages")
 
                         # Increment year and reset relevant variables
                         year = year + 1
                         page = 1
                         attempt = 1
                         n_this_year_results = 0
+
+                        if year <= max_year:
+                            logging.debug(f"Moving on to year {year}")
+                            logging.debug("---------------------------------")
+
                     else:
                         for article in articles:
                             car = get_car_details(article)
@@ -140,9 +145,8 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
                         page = page + 1
                         attempt = 1
 
-                        if verbose:
-                            print("Car count: ", len(results))
-                            print("---------------------------------")
+                        logging.debug(f"Car count: {len(results)}")
+                        logging.debug("---------------------------------")
 
             except KeyboardInterrupt:
                 break
@@ -151,13 +155,12 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
                 traceback.print_exc()
                 attempt = attempt + 1
                 if attempt <= max_attempts_per_page:
-                    if verbose:
-                        print("Exception. Starting attempt #", attempt, "and keeping at page #", page)
+                    logging.debug(f"Exception. Starting attempt #{attempt} and keeping at page #{page}")
+
                 else:
                     page = page + 1
                     attempt = 1
-                    if verbose:
-                        print("Exception. All attempts exhausted for this page. Skipping to next page #", page)
+                    logging.debug(f"Exception. All attempts exhausted for this page. Skipping to next page #{page}")
 
     except KeyboardInterrupt:
         pass
