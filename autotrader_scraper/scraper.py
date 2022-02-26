@@ -18,7 +18,7 @@ keywords = {"mileage": ["miles"],
 
 def get_car_details(article):
     car = {"name": article.find("h3", {"class": "product-card-details__title"}).text.strip(),
-           "link": "https://www.autotrader.co.uk" + \
+           "link": "https://www.autotrader.co.uk" +
                    article.find("a", {"class": "tracking-standard-link"})["href"][
                    : article.find("a", {"class": "tracking-standard-link"})["href"].find("?")],
            "price": article.find("div", {"class": "product-card-pricing__price"}).text.strip().replace(",", "")}
