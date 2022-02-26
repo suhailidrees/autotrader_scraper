@@ -48,6 +48,8 @@ def get_car_details(article):
             car["year"] = key_spec_bs.split(' ')[0]
         elif key_spec_bs[1] == "." and key_spec_bs[3] == "L":
             car["engine"] = key_spec_bs
+        else:
+            logging.info(f'Unidentified information {key_spec_bs}')
 
     return car
 
