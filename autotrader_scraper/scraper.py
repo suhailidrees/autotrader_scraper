@@ -2,7 +2,6 @@ import json
 import csv
 import logging
 from bs4 import BeautifulSoup
-import traceback
 import cloudscraper
 
 keywords = {"mileage": ["miles"],
