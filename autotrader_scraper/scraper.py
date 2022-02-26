@@ -22,7 +22,7 @@ def get_car_details(article):
            "link": "https://www.autotrader.co.uk" + \
                    article.find("a", {"class": "tracking-standard-link"})["href"][
                    : article.find("a", {"class": "tracking-standard-link"})["href"].find("?")],
-           "price": article.find("div", {"class": "product-card-pricing__price"}).text.strip()}
+           "price": article.find("div", {"class": "product-card-pricing__price"}).text.strip().replace(",", "")}
 
     key_specs_bs_list = article.find("ul", {"class": "listing-key-specs"}).find_all("li")
 
