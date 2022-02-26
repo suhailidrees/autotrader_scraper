@@ -67,7 +67,7 @@ def get_page_html(url, scraper, params={}, max_attempts_per_page=5):
             elif first_character == '<':
                 page_html = r.text
             else:
-                raise Exception(f'Unknown start to reponse from {r.url}: {r.text[:100]}')
+                raise Exception(f'Unknown start to response from {r.url}: {r.text[:100]}')
             s = BeautifulSoup(page_html, features="html.parser")
             return s
 
