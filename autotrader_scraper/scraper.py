@@ -96,7 +96,7 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
     results = []
     n_this_year_results = 0
 
-    url_default = "https://www.autotrader.co.uk/results-car-search"
+    url_default = "https://www.autotrader.co.uk/car-search"
 
     # Set up parameters for query to autotrader.co.uk
 
