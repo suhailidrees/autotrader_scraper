@@ -44,7 +44,8 @@ def get_car_details(article):
         elif any(keyword in key_spec_bs for keyword in keywords["ULEZ"]):
             car["ULEZ"] = key_spec_bs
         elif any(keyword in key_spec_bs for keyword in keywords["year"]):
-            car["year"] = key_spec_bs
+            car["year_detail"] = key_spec_bs
+            car["year"] = key_spec_bs.split(' ')[0]
         elif key_spec_bs[1] == "." and key_spec_bs[3] == "L":
             car["engine"] = key_spec_bs
 
