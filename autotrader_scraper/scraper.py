@@ -58,9 +58,9 @@ def get_page_html(url, scraper, params={}, max_attempts_per_page=5):
     while attempt <= max_attempts_per_page:
 
         r = scraper.get(url, params=params)
-        logging.debug(f"Response: {r}")
+        logging.info(f"Response: {r}")
 
-        if r.status_code==200:
+        if r.status_code == 200:
             first_character = r.text[0]
             if first_character == '{':
                 page_html = r.json()["html"]
@@ -71,25 +71,21 @@ def get_page_html(url, scraper, params={}, max_attempts_per_page=5):
             s = BeautifulSoup(page_html, features="html.parser")
             return s
 
-        else:   # if not successful (e.g. due to bot protection), log as an attempt
+        else:  # if not successful (e.g. due to bot protection), log as an attempt
             attempt = attempt + 1
-            logging.debug(f"Exception. Starting attempt #{attempt} ")
+            logging.info(f"Exception. Starting attempt #{attempt} ")
 
-    logging.debug(f"Exception. All attempts exhausted for this page. Skipping to next page")
+    logging.info(f"Exception. All attempts exhausted for this page. Skipping to next page")
 
     return None
 
 
-
-
-
 def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995,
              include_writeoff="include", max_attempts_per_page=5, verbose=False):
-
     if verbose:
-        log_level = logging.DEBUG
-    else:
         log_level = logging.INFO
+    else:
+        log_level = logging.WARNING
     logging.basicConfig(format='%(levelname)s:%(message)s', level=log_level)
 
     # To bypass Cloudflare protection
@@ -128,7 +124,7 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 
             search_params["year-from"] = year
             search_params["year-to"] = year
-            logging.debug(f"Year:     {year}\nPage:     {page}")
+            logging.info(f"Year:     {year}\nPage:     {page}")
 
             url = url_default
             params = search_params
@@ -152,11 +148,11 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
                         page = page + 1
                         url = next_page_object['href']
                         params = {}
-                        logging.debug(f"Car count: {len(results)}")
-                        logging.debug("---------------------------------")
+                        logging.info(f"Car count: {len(results)}")
+                        logging.info("---------------------------------")
                     else:
                         url = None
-                        logging.debug(f"Found total {n_this_year_results} results for year {year} across {page} pages")
+                        logging.info(f"Found total {n_this_year_results} results for year {year} across {page} pages")
 
             except KeyboardInterrupt:
                 break
@@ -167,8 +163,8 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
             n_this_year_results = 0
 
             if year <= max_year:
-                logging.debug(f"Moving on to year {year}")
-                logging.debug("---------------------------------")
+                logging.info(f"Moving on to year {year}")
+                logging.info("---------------------------------")
 
     except KeyboardInterrupt:
         pass
