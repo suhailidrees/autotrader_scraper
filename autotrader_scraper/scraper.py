@@ -131,7 +131,7 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 
             try:
                 while url:
-                    s = get_page_html(url, scraper, params=params, max_attempts_per_page=5)
+                    s = get_page_html(url, scraper, params=params, max_attempts_per_page=max_attempts_per_page)
                     if s:
                         articles = s.find_all("article", attrs={"data-standout-type": ""})
                         next_page_object = s.find(attrs={"class": "pagination--right__active"})
