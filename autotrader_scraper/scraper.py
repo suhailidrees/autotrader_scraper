@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import traceback
 import cloudscraper
 
-def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995, include_writeoff="include", max_attempts_per_page=5, verbose=False):
+def get_cars(make="BMW", model="3 SERIES", variant=False, postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995, include_writeoff="include", max_attempts_per_page=5, verbose=False):
 
 	# To bypass Cloudflare protection
 	scraper = cloudscraper.create_scraper()
@@ -47,6 +47,10 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 	elif (include_writeoff == "writeoff-only"):
 		params["only-writeoff-categories"] = "on"
 		
+
+	if (variant):
+		params["aggregatedTrim"] = variant
+
 	year = min_year
 	page = 1
 	attempt = 1
