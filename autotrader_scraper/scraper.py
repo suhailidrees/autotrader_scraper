@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import traceback
 import cloudscraper
 
-def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995, include_writeoff="include", max_attempts_per_page=5, verbose=False):
+def get_cars(make="BMW", model="3 SERIES", variant=False, postcode="SW1A 0AA", radius=1500, min_year=1995, max_year=1995, include_writeoff="include", max_attempts_per_page=5, verbose=False):
 
 	# To bypass Cloudflare protection
 	scraper = cloudscraper.create_scraper()
@@ -47,6 +47,10 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 	elif (include_writeoff == "writeoff-only"):
 		params["only-writeoff-categories"] = "on"
 		
+
+	if (variant):
+		params["aggregatedTrim"] = variant
+
 	year = min_year
 	page = 1
 	attempt = 1
@@ -103,7 +107,7 @@ def get_cars(make="BMW", model="5 SERIES", postcode="SW1A 0AA", radius=1500, min
 						for article in articles:
 							car = {}
 							car["name"] = article.find("h3", {"class": "product-card-details__title"}).text.strip()				
-							car["link"] = "https://www.autotrader.co.uk" + article.find("a", {"class": "tracking-standard-link"})["href"][: article.find("a", {"class": "tracking-standard-link"})["href"].find("?")]
+							car["link"] = "https://www.autotrader.co.uk" + article.find("a", {"class": "listing-fpa-link"})["href"][: article.find("a", {"class": "listing-fpa-link"})["href"].find("?")]
 							car["price"] = article.find("div", {"class": "product-card-pricing__price"}).text.strip()
 
 							key_specs_bs_list = article.find("ul", {"class": "listing-key-specs"}).find_all("li")
